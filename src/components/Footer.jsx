@@ -1,0 +1,14 @@
+import React from 'react'
+import '../styles/footer.css'
+
+function Footer() {
+  return (
+    <footer className="bg-dark text-white text-center py-3 mt-5">
+        <div className="container">
+            <small>© 2026 Proyecto React - Desarrollado por Gianluca Ferrari</small>
+        </div>
+    </footer>
+  )
+}
+
+export default Footer
