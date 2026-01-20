@@ -6,12 +6,19 @@ export const AuthContext = createContext();
 export function AuthProvider({children}){
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [usuario, setUsuario] = useState({ nombre: '', email: ''});
+    const [usuario, setUsuario] = useState({ nombre: '', password: ''});
 
     const cerrarSesion = () => {
         setIsAuthenticated(false);
-        setUsuario({ nombre: '', email: '' });
-        navigate('/iniciar-sesion')
+        setUsuario(null);
+        navigate('/login', { replace: true, state: {} });
+    }
+
+    const iniciarSesion = (usuario) => {
+        const rol = usuario.nombre === 'admin' && usuario.password === 'admin' ? 'admin' : 'user';
+        setIsAuthenticated(true);
+        setUsuario({...usuario, rol});
+        return rol === 'admin';
     }
 
     const value = {
@@ -20,6 +27,7 @@ export function AuthProvider({children}){
         usuario,
         setUsuario,
         cerrarSesion,
+        iniciarSesion
     }
 
     return (

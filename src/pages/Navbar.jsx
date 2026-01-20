@@ -43,7 +43,7 @@ function Navbar() {
                   <button onClick={cerrarSesion}>Cerrar Sesión</button>
                 </div>
               ) : (
-                <Link className='nav-link' to='/iniciar-sesion'>Iniciar Sesión</Link>
+                <Link className='nav-link' to='/login'>Iniciar Sesión</Link>
               )}
             </li>
           </ul>

@@ -5,7 +5,7 @@ import { useAuthContext } from '../context/AuthContext';
 function RutaProtegida({ children }) {
     const location = useLocation();
     const { isAuthenticated } = useAuthContext();
-    if(!isAuthenticated) return <Navigate to='/iniciar-sesion' state={{ from: location.pathname }} replace />
+    if(!isAuthenticated) return <Navigate to='/login' state={{ from: location.pathname }} replace />
     return children;
 }
 

@@ -17,7 +17,6 @@ function Pagar() {
         <div>
             <div>
                 <h2>{usuario.nombre}</h2>
-                <p>Email: {usuario.email}</p>
                 <button onClick={cerrarSesion}>Cerrar Sesión</button>
             </div>
 
@@ -35,7 +34,7 @@ function Pagar() {
 
             <div>
                 <button onClick={comprar}>Confirmar y Pagar</button>
-                <button onClick={() => navigate(-1)}>Cancelar</button>
+                <button onClick={() => navigate('/carrito')}>Cancelar</button>
             </div>
         </div>
     )
