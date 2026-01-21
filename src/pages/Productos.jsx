@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/productos.css'
-import imgCarrito from '../assets/carrito.png';
-import spinner from '../assets/spinner.gif';
 import { Link } from 'react-router-dom';
 import { useCartContext } from '../context/CartContext';
 
@@ -38,7 +36,7 @@ function Productos() {
     if (cargando)
     return ( 
       <div className="container-carga">
-        <img src={spinner} alt="Spinner" width="50px" />
+        <img src='/spinner.gif' alt="Spinner" width="50px" />
         <p>Cargando...</p>
       </div>
     )
