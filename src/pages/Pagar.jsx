@@ -4,7 +4,7 @@ import { useAuthContext } from '../context/AuthContext';
 
 function Pagar() {
     const navigate = useNavigate();
-    const { carrito, vaciarCarrito, cantTotal } = useCartContext();
+    const { carrito, vaciarCarrito, precioTotal } = useCartContext();
     const { usuario, cerrarSesion } = useAuthContext();
 
     const comprar = () => {
