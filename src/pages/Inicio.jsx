@@ -1,7 +1,6 @@
 import React from 'react'
 
 function Inicio() {
-  console.log('API KEY:', import.meta.env.VITE_FAKE_API_KEY);
   return (
     <div>
       <h1>Bienvenidos al inicio</h1>

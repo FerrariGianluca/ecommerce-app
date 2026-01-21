@@ -14,9 +14,9 @@ function Login() {
             alert("Completa todos los datos");
             return;
         }
-        const isAdmin = iniciarSesion(form);
+        const rol = iniciarSesion(form);
         const from = location.state?.from;
-        const destino = isAdmin
+        const destino = rol === 'admin'
           ? (from || "/dashboard")
           : (from && from !== "/dashboard" ? from : "/productos");
         navigate(destino, { replace: true });

@@ -11,35 +11,31 @@ import Pagar from './pages/Pagar';
 import RutaProtegida from './pages/RutaProtegida';
 import Login from './pages/Login';
 import Footer from './components/Footer';
-import { CartProvider } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext';
 import Dashboard from './pages/Dashboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
   
   return (
-    <AuthProvider>
-      <CartProvider>
-        <div className="layout">
-          <Navbar />
-          <main className="content">
-            <div className="page">
-              <Routes>
-                <Route path='/' element={<Inicio />} />
-                <Route path='/servicios' element={<Servicios />} />
-                <Route path='/productos' element={<Productos />} />
-                <Route path='/productos/:id' element={<DetalleProductos />} />
-                <Route path='/carrito' element={<Carrito />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/pagar' element={<RutaProtegida><Pagar /></RutaProtegida>} />
-                <Route path='/dashboard' element={<RutaProtegida><Dashboard /></RutaProtegida>} />
-              </Routes>
-            </div>
-          </main>
-          <Footer />
+    <div className="layout">
+      <Navbar />
+      <main className="content">
+        <div className="page">
+          <Routes>
+            <Route path='/' element={<Inicio />} />
+            <Route path='/servicios' element={<Servicios />} />
+            <Route path='/productos' element={<Productos />} />
+            <Route path='/productos/:id' element={<DetalleProductos />} />
+            <Route path='/carrito' element={<Carrito />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/pagar' element={<RutaProtegida rolesPermitidos={['user', 'admin']}><Pagar /></RutaProtegida>} />
+            <Route path='/dashboard' element={<RutaProtegida rolesPermitidos={['admin']}><Dashboard /></RutaProtegida>} />
+          </Routes>
         </div>
-      </CartProvider>
-    </AuthProvider>
+      </main>
+      <Footer />
+    </div>
   )
 }
 
