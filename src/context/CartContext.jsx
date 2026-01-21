@@ -1,11 +1,18 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export const CartContext = createContext();
+const CART_KEY = 'cart';
 
 export function CartProvider({children}){
-    const [carrito, setCarrito] = useState([]);
+    const [carrito, setCarrito] = useState(() => {
+        const stored = localStorage.getItem(CART_KEY);
+        return stored ? JSON.parse(stored) : [];
+    });
 
-    const vaciarCarrito = () => setCarrito([]);
+    const vaciarCarrito = () => {
+        setCarrito([]);
+        localStorage.removeItem(CART_KEY);
+    };
 
     const sumarProducto = producto => {
       setCarrito(carritoActual => 
@@ -34,6 +41,10 @@ export function CartProvider({children}){
         precioTotal,
         cantTotal
     }
+
+    useEffect(() => {
+        localStorage.setItem(CART_KEY, JSON.stringify(carrito));
+    }, [carrito]);
 
     return (
         <CartContext.Provider value={value}>
