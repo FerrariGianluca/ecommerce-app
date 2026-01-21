@@ -22,14 +22,17 @@ export function CartProvider({children}){
           .filter(p => p.cant > 0));
     }
 
-    const total = Number(carrito.reduce((suma, producto) => suma + producto.precio * producto.cant, 0)).toFixed(2);
+    const precioTotal = Number(carrito.reduce((suma, producto) => suma + producto.precio * producto.cant, 0)).toFixed(2);
+
+    const cantTotal = Number(carrito.reduce((total, producto) => total + producto.cant, 0));
 
     const value = {
         carrito,
         sumarProducto,
         restarProducto,
         vaciarCarrito,
-        total
+        precioTotal,
+        cantTotal
     }
 
     return (

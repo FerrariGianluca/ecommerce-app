@@ -4,7 +4,7 @@ import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
 
 function Carrito(){
-    const { carrito, vaciarCarrito, total } = useCartContext();
+    const { carrito, vaciarCarrito, precioTotal } = useCartContext();
     const { isAutenticated } = useAuthContext();
     const navigate = useNavigate();
     const irAPagar=()=>navigate('/pagar', {state: { carrito }});
@@ -42,7 +42,7 @@ function Carrito(){
                         </table>
                         <div>
                             <hr />
-                            Total: ${total}
+                            Total: ${precioTotal}
                         </div>
 
                         <button onClick={vaciarCarrito}>Vaciar Carrito</button>

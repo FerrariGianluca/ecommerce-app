@@ -1,0 +1,40 @@
+#mainNavbar{
+    justify-content: end;
+}
+.navbar-data{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    margin-left: 3em;
+    gap: 1rem;
+}
+.container-carrito{
+    border-radius: 50%;
+    background-color: #fff;
+    padding: .4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cart-container{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+.carrito-badge {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    background-color: #fff;
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 12px;
+    border: 1px solid #000;
+    
+}
+.img-carrito {
+    width: 30px;
+    height: auto;
+}

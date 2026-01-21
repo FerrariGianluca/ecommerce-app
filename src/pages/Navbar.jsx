@@ -2,9 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
+import '../styles/navbar.css'
+import imgCarrito from '../assets/carrito.png';
 
 function Navbar() {
-  const { carrito } = useCartContext();
+  const { cantTotal } = useCartContext();
   const { isAuthenticated, usuario, cerrarSesion } = useAuthContext();
 
   return (
@@ -25,7 +27,7 @@ function Navbar() {
         </button>
 
         <div className="collapse navbar-collapse" id="mainNavbar">
-          <ul className="navbar-nav ms-auto">
+          <ul className="navbar-nav">
             <li className="nav-item">
               <Link className="nav-link" to="/">Inicio</Link>
             </li>
@@ -35,18 +37,22 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/productos">Productos</Link>
             </li>
-            <li className='nav-item'>
-              {isAuthenticated ? (
-                <div>
-                  <span>Hola, {usuario.nombre}</span>
-                  <span>Carrito: {carrito.length}</span>
-                  <button onClick={cerrarSesion}>Cerrar Sesión</button>
-                </div>
-              ) : (
-                <Link className='nav-link' to='/login'>Iniciar Sesión</Link>
-              )}
-            </li>
           </ul>
+          {isAuthenticated ? (
+            <div className='navbar-data'>
+              <span className='navbar-user'>Hola, {usuario.nombre}</span>
+              <Link to="/carrito" className='cart-container'>
+                <div className='container-carrito'>
+                  <img src={imgCarrito} alt="Carrito" className='img-carrito'/>
+                </div>
+                <span className='carrito-badge'>({cantTotal})</span>
+              </Link>
+              <button className='btn btn-danger' onClick={cerrarSesion}>Cerrar Sesión</button>
+            </div>
+          ) : (
+            <Link className='btn btn-success' to='/login'>Iniciar Sesión</Link>
+          )}
+          
         </div>
 
       </div>

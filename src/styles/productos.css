@@ -1,25 +1,6 @@
 .container-productos{
     display: flex;
 }
-.btn-carrito{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-self: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #998b8b;
-    padding: 10px;
-    text-decoration: none;
-}
-.btn-carrito span{
-    background-color: #998b8b;
-    color: #000;
-}
-.img-carrito{
-    width: 30px;
-}
 .container-carga {
   flex: 1;
   display: flex;

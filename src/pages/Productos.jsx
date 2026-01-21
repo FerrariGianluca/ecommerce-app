@@ -67,7 +67,6 @@ function Productos() {
               </li> 
             ))}
           </ol>
-          <Link to="/carrito" className='btn-carrito'><img src={imgCarrito} alt="Carrito" className='img-carrito'/><span>({carritoSuma})</span></Link>
         </div>
         <Link to="/"><button>Volver al Inicio</button></Link>
       </div>

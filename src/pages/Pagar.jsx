@@ -4,7 +4,7 @@ import { useAuthContext } from '../context/AuthContext';
 
 function Pagar() {
     const navigate = useNavigate();
-    const { carrito, vaciarCarrito, total } = useCartContext();
+    const { carrito, vaciarCarrito, cantTotal } = useCartContext();
     const { usuario, cerrarSesion } = useAuthContext();
 
     const comprar = () => {
@@ -29,7 +29,7 @@ function Pagar() {
                     </div>
                 ))}
                 <hr />
-                <strong>Total: </strong><span>${total}</span>
+                <strong>Total: </strong><span>${cantTotal}</span>
             </div>
 
             <div>
