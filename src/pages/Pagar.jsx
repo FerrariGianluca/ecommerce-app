@@ -29,7 +29,7 @@ function Pagar() {
                     </div>
                 ))}
                 <hr />
-                <strong>Total: </strong><span>${cantTotal}</span>
+                <strong>Total: </strong><span>${precioTotal}</span>
             </div>
 
             <div>
