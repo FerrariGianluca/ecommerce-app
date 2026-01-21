@@ -38,23 +38,23 @@ function Navbar() {
               <Link className="nav-link" to="/productos">Productos</Link>
             </li>
           </ul>
-          {isAuthenticated ? (
             <div className='navbar-data'>
-              <span className='navbar-user'>Hola, {usuario.nombre}</span>
               <Link to="/carrito" className='cart-container'>
                 <div className='container-carrito'>
                   <img src={imgCarrito} alt="Carrito" className='img-carrito'/>
                 </div>
-                <span className='carrito-badge'>({cantTotal})</span>
+                {cantTotal > 0 && <span className='carrito-badge'>({cantTotal})</span>}
               </Link>
-              <button className='btn btn-danger' onClick={cerrarSesion}>Cerrar Sesión</button>
+              {isAuthenticated ? (
+              <>
+                <span className='navbar-user'>Hola, {usuario.nombre}</span>
+                <button className='btn btn-danger' onClick={cerrarSesion}>Cerrar Sesión</button>
+              </>
+              ) : (
+                <Link className='btn btn-success' to='/login'>Iniciar Sesión</Link>
+              )}
             </div>
-          ) : (
-            <Link className='btn btn-success' to='/login'>Iniciar Sesión</Link>
-          )}
-          
         </div>
-
       </div>
     </nav>
   );
