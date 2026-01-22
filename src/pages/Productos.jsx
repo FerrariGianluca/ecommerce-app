@@ -8,7 +8,7 @@ function Productos() {
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(null);
 
-    const { sumarProducto, restarProducto, carrito } = useCartContext();
+    const { sumarProducto, restarProducto, getCant } = useCartContext();
 
     const cargarProductos = () => {
       setCargando(true);
@@ -48,23 +48,30 @@ function Productos() {
       </>
     )
 
-    const getCant = id => carrito.find(p => p.id === id)?.cant || 0;
-
-    const carritoSuma = carrito.reduce((sum, item) => sum + item.cant, 0);
-
     return (
       <div className='container-page-productos'>
         <div className='container-productos'>
-          <ol>
             {productos.map(producto=>(
-              <li key={producto.id}>
-                {producto.producto} - ${producto.precio} | Stock: {producto.stock} | Agregados: {getCant(producto.id)}
-                  <button className='btn btn-success' onClick={() => sumarProducto(producto)}>+</button>
-                  <button className='btn btn-danger' onClick={() => restarProducto(producto)}>-</button>
-                  <Link to={`/productos/${producto.id}`} state={{producto}}><button className='btn btn-primary'>Ver Detalles</button></Link>
-              </li> 
+              <>
+              <div key={producto.id} class="card" style={{width: '18rem'}}>
+                <div className="card-body">
+                  <div className='card-title'>
+                    <h5>{producto.producto}</h5>
+                    <p>{producto.descripcion}</p>
+                  </div>
+                  <ul className='card-list'>
+                    <li><strong>Precio:</strong> ${producto.precio}</li>
+                    <li><strong>Stock:</strong> {producto.stock}</li>
+                    <li><strong>Agregados:</strong> {getCant(producto.id)}</li>
+                  </ul>
+                  <div className="card-actions">
+                    <button className='btn btn-success' onClick={() => sumarProducto(producto)}>+</button>
+                    <button className='btn btn-danger' onClick={() => restarProducto(producto)}>-</button>
+                  </div>
+                </div>
+              </div>
+              </>
             ))}
-          </ol>
         </div>
         <Link to="/"><button>Volver al Inicio</button></Link>
       </div>

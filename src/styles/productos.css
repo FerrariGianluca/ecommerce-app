@@ -1,6 +1,35 @@
 .container-productos{
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 20px;
 }
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+  min-height: 250px;
+}
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-actions {
+  display: flex;
+  gap: 5px;
+}
+.card-title{
+  text-align: center;
+}
+.card-list{
+  list-style-type: none;
+}
+
 .container-carga {
   flex: 1;
   display: flex;

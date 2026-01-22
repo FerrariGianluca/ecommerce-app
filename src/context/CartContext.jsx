@@ -9,17 +9,21 @@ export function CartProvider({children}){
         return stored ? JSON.parse(stored) : [];
     });
 
+    const getCant = id => carrito.find(p => p.id === id)?.cant || 0;
+
     const vaciarCarrito = () => {
         setCarrito([]);
         localStorage.removeItem(CART_KEY);
     };
 
     const sumarProducto = producto => {
-      setCarrito(carritoActual => 
-        carritoActual.some(p => p.id === producto.id)
-          ? carritoActual.map(p => p.id === producto.id ? { ...p, cant: p.cant + 1 } : p)
-          : [...carritoActual, { ...producto, cant: 1 }]
-      );
+        if(getCant(producto.id) < producto.stock){
+            setCarrito(carritoActual => 
+              carritoActual.some(p => p.id === producto.id)
+                ? carritoActual.map(p => p.id === producto.id ? { ...p, cant: p.cant + 1 } : p)
+                : [...carritoActual, { ...producto, cant: 1 }]
+            );
+        }
     };
 
     const restarProducto = producto => {
@@ -39,7 +43,8 @@ export function CartProvider({children}){
         restarProducto,
         vaciarCarrito,
         precioTotal,
-        cantTotal
+        cantTotal,
+        getCant
     }
 
     useEffect(() => {
