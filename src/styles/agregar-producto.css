@@ -1,0 +1,51 @@
+.add-form{
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px
+}
+.intpu-container{
+    margin-bottom: 15px
+}
+
+.input-title{
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold
+}
+.add-input{
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px
+}
+.add-button{
+    width: 100%;
+    padding: 12px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px
+}
+.input-info{
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px
+}
+.cargando{
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.not-cargando{
+    background-color: darkolivegreen;
+    cursor: pointer;
+}
+.red-border{
+    border: 1px solid red
+}
+.normal-border{
+    border: 1px solid #ccc
+}
+.error{
+    color: red;
+    margin: 5px 0;
+    font-size: 14px
+}

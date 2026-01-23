@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Routes, Route } from 'react-router-dom';
 import Inicio from './pages/Inicio';
 import Servicios from './pages/Servicios';
@@ -12,8 +14,7 @@ import RutaProtegida from './pages/RutaProtegida';
 import Login from './pages/Login';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import FormularioProducto from './components/FormularioProducto';
 
 function App() {
   
@@ -31,6 +32,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/pagar' element={<RutaProtegida rolesPermitidos={['user', 'admin']}><Pagar /></RutaProtegida>} />
             <Route path='/dashboard' element={<RutaProtegida rolesPermitidos={['admin']}><Dashboard /></RutaProtegida>} />
+            <Route path='agregar-producto' element={<RutaProtegida rolesPermitidos={['admin']}><FormularioProducto /></RutaProtegida>} />
           </Routes>
         </div>
       </main>

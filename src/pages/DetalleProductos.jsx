@@ -3,7 +3,7 @@ import { Link, useParams, useLocation } from "react-router-dom"
 function DetalleProductos(){
     const { id } = useParams();
     const location = useLocation();
-    const producto = location.state?.producto;
+    const producto = location.state;
 
     if(!producto){
         return (
