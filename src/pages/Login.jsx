@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuthContext } from '../context/AuthContext';
+import '../styles/login.css';
 
 function Login() {
     const navigate = useNavigate();
@@ -22,26 +23,29 @@ function Login() {
         navigate(destino, { replace: true });
     };
     return (
-        <div>
-            <h1>Inicia sesión para continuar</h1>
-            <form onSubmit={handleSubmit}>
-                <input 
-                    type='text' 
-                    placeholder='Nombre Completo' 
-                    value={form.nombre} 
-                    onChange={e=>setForm({...form, nombre: e.target.value})} 
-                    required 
-                />
-                <input 
-                    type='password' 
-                    placeholder='Contraseña' 
-                    value={form.password} 
-                    onChange={e=>setForm({...form, password: e.target.value})} 
-                    required 
-                />
-                <button type='submit'>Iniciar Sesión</button>
-                <strong> </strong>
-                <button type='button' onClick={() => navigate(-1)}>Cancelar</button>
+        <div className='login-container'>
+            <h1 className='login-title'>Inicia sesión para continuar</h1>
+            <form className='login-form' onSubmit={handleSubmit}>
+                <div className="login-inputs">
+                    <input 
+                        type='text' 
+                        placeholder='Nombre Completo' 
+                        value={form.nombre} 
+                        onChange={e=>setForm({...form, nombre: e.target.value})} 
+                        required 
+                    />
+                    <input 
+                        type='password' 
+                        placeholder='Contraseña' 
+                        value={form.password} 
+                        onChange={e=>setForm({...form, password: e.target.value})} 
+                        required 
+                    />
+                </div>
+                <div className="login-actions">
+                    <button className='btn btn-success' type='submit'>Iniciar Sesión</button>
+                    <button className='btn btn-danger' type='button' onClick={() => navigate(-1)}>Cancelar</button>
+                </div>
             </form>
         </div>
     )
