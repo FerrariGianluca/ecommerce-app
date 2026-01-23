@@ -57,6 +57,7 @@ export function AuthProvider({children}){
         isAuthenticated,
         setIsAuthenticated,
         usuario,
+        isAdmin: usuario?.rol === 'admin',
         setUsuario,
         cerrarSesion,
         iniciarSesion,

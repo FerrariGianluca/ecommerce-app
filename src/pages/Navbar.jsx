@@ -7,7 +7,7 @@ import imgCarrito from '../assets/carrito.png';
 
 function Navbar() {
   const { cantTotal } = useCartContext();
-  const { isAuthenticated, usuario, cerrarSesion } = useAuthContext();
+  const { isAuthenticated, isAdmin, usuario, cerrarSesion } = useAuthContext();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,6 +37,11 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/productos">Productos</Link>
             </li>
+            {isAdmin &&
+              <li className="nav-item">
+                <Link className="nav-link" to="/agregar-producto">Agregar Producto</Link>
+              </li>
+            }
           </ul>
             <div className='navbar-data'>
               <Link to="/carrito" className='cart-container'>
