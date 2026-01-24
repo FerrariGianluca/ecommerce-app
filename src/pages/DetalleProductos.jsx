@@ -23,7 +23,7 @@ function DetalleProductos(){
                 <img src="..." className="card-img-top" alt="..." />
                 <div className="card-body">
                     <h5 className="card-title">{producto.producto}</h5>
-                    <p className="card-text">Descripción: {producto.descripcion}</p>
+                    <p className="card-text">{producto.descripcion.trim() > 0 ? `Descripción: ${producto.descripcion}` : 'Sin descripción'}</p>
                     <p className="card-text">Precio: {producto.precio}</p>
                     <p className="card-text">SKU: {producto.id}</p>
                 </div>

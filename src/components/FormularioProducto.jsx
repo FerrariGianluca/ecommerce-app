@@ -30,7 +30,6 @@ function FormularioProducto() {
             else if(isNaN(precioNumerico)) errorDeCarga.precio = 'Precio no válido.';
             else if(precioLimpio <= 0) errorDeCarga.precio = 'Debe ser mayor a 0.';
         }
-        if(producto.descripcion.trim().length < 10) errorDeCarga.descripcion = 'Mínimo 10 caracteres.';
         if(producto.descripcion.trim().length > 200) errorDeCarga.descripcion = 'Máximo 200 caracteres.';
         setErrores(errorDeCarga);
         return Object.keys(errorDeCarga).length === 0;
