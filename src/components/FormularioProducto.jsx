@@ -59,7 +59,7 @@ function FormularioProducto() {
         setCargando(true);
         try{
             const newProduct = await agregarProducto(producto);
-            navigate(`/productos/:${newProduct.id}`, { replace: true, state: newProduct });
+            navigate(`/productos/${newProduct.id}`);
             setProducto({producto: '', precio: '', descripcion: '', tipo: '', stock: ''});
             setErrores({});
         } catch (error) {

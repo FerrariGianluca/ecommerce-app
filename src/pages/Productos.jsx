@@ -67,6 +67,7 @@ function Productos() {
                     <button className='btn btn-success' onClick={() => sumarProducto(producto)}>+</button>
                     <button className='btn btn-danger' onClick={() => restarProducto(producto)}>-</button>
                   </div>
+                  <Link to={`/productos/${producto.id}`}><button>Ver detalles</button></Link>
                 </div>
               </div>
             ))}

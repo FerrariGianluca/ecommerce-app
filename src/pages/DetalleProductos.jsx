@@ -1,10 +1,25 @@
 import { Link, useParams, useLocation } from "react-router-dom"
+import { useEffect, useState } from 'react';
 
 function DetalleProductos(){
     const { id } = useParams();
-    const location = useLocation();
-    const producto = location.state;
+    const [producto, setProducto] = useState(null);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState(null);
 
+    useEffect(() => {
+        fetch(`https://695ad9991d8041d5eeb56822.mockapi.io/productos/products/${id}`)
+        .then(res => {
+            if (!res.ok) throw new Error('No se pudo cargar el producto');
+            return res.json();
+        })
+        .then(data => setProducto(data))
+        .catch(err => setError(err.message))
+        .finally(() => setCargando(false));
+    }, [id]);
+
+    if (cargando) return <p>Cargando...</p>;
+    if (error) return <p>{error}</p>;
     if(!producto){
         return (
             <div>
@@ -20,7 +35,6 @@ function DetalleProductos(){
         <>
             <h2>Detalles del Producto</h2>
             <div className="card" >
-                <img src="..." className="card-img-top" alt="..." />
                 <div className="card-body">
                     <h5 className="card-title">{producto.producto}</h5>
                     <p className="card-text">{producto.descripcion.trim() > 0 ? `Descripción: ${producto.descripcion}` : 'Sin descripción'}</p>
