@@ -8,14 +8,24 @@ function DetalleProductos(){
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch(`https://695ad9991d8041d5eeb56822.mockapi.io/productos/products/${id}`)
-        .then(res => {
-            if (!res.ok) throw new Error('No se pudo cargar el producto');
-            return res.json();
-        })
-        .then(data => setProducto(data))
-        .catch(err => setError(err.message))
-        .finally(() => setCargando(false));
+        const fetchProducto = async () => {
+            try {
+                setCargando(true);
+                setError(null);
+                const res = await fetch(`https://695ad9991d8041d5eeb56822.mockapi.io/productos/products/${id}`);
+                if (!res.ok) throw new Error(`Error ${res.status}`);
+                const data = await res.json();
+                setProducto(data);
+            }
+            catch(e) {
+                setError('No se pudo cargar el producto');
+                console.error(e);
+            }
+            finally {
+                setCargando(false);
+            }
+        }
+        fetchProducto();
     }, [id]);
 
     if (cargando) return <p>Cargando...</p>;

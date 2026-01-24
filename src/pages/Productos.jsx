@@ -10,27 +10,25 @@ function Productos() {
 
     const { sumarProducto, restarProducto, getCant } = useCartContext();
 
-    const cargarProductos = () => {
-      setCargando(true);
-      setError(null);
-
-      fetch('https://695ad9991d8041d5eeb56822.mockapi.io/productos/products')
-        .then(response=>{
-          if(!response.ok)throw new Error('HTTP ' + response.status);
-          return response.json()
-        })
-        .then(data=>{
-          setProductos(data);
-          setCargando(false);
-        })
-        .catch(error=>{
-          setError('Hubo un problema al cargar los productos.');
-          setCargando(false);
-        })
-    }
-
     useEffect(() => {
-      cargarProductos()
+        const fetchProductos = async () => {
+          try{
+            setCargando(true);
+            setError(null);
+            const res = await fetch('https://695ad9991d8041d5eeb56822.mockapi.io/productos/products');
+            if (!res.ok) throw new Error(`Error ${res.status}`);
+            const data = await res.json();
+            setProductos(data);
+          }
+          catch(e) {
+            setError('No se pudieron cargar los productos');
+            console.error(e);
+          }
+          finally{
+            setCargando(false);
+          }
+        }
+        fetchProductos();
     }, []);
 
     if (cargando)
