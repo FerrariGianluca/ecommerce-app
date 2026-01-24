@@ -52,8 +52,7 @@ function Productos() {
       <div className='container-page-productos'>
         <div className='container-productos'>
             {productos.map(producto=>(
-              <>
-              <div key={producto.id} class="card" style={{width: '18rem'}}>
+              <div key={producto.id} className="card" style={{width: '18rem'}}>
                 <div className="card-body">
                   <div className='card-title'>
                     <h5>{producto.producto}</h5>
@@ -70,7 +69,6 @@ function Productos() {
                   </div>
                 </div>
               </div>
-              </>
             ))}
         </div>
         <Link to="/"><button>Volver al Inicio</button></Link>
