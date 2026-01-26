@@ -2,16 +2,12 @@ import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
 
-function RutaProtegida({ children, rolesPermitidos=[] }) {
+function RutaProtegida({ children, adminOnly = false }) {
     const location = useLocation();
-    const { isAuthenticated, authLoading, usuario } = useAuthContext();
-    if (authLoading) return null;
-    if(!isAuthenticated){
-        return <Navigate to='/login' state={{ from: location.pathname }} replace />  
-    }
-    if(rolesPermitidos.length>0 && !rolesPermitidos.includes(usuario?.rol)){
-        return <Navigate to="/productos" replace />;
-    }
+    const { isAuthenticated, authLoading, isAdmin } = useAuthContext();
+    if (authLoading) return <p>Cargando...</p>;
+    if(!isAuthenticated) return <Navigate to='/login' state={{ from: location.pathname }} replace />
+    if(adminOnly && !isAdmin) return <Navigate to="/productos" replace />;
     return children;
 }
 

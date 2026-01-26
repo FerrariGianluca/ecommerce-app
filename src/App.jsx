@@ -30,9 +30,9 @@ function App() {
             <Route path='/productos/:id' element={<DetalleProductos />} />
             <Route path='/carrito' element={<Carrito />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/pagar' element={<RutaProtegida rolesPermitidos={['user', 'admin']}><Pagar /></RutaProtegida>} />
-            <Route path='/dashboard' element={<RutaProtegida rolesPermitidos={['admin']}><Dashboard /></RutaProtegida>} />
-            <Route path='agregar-producto' element={<RutaProtegida rolesPermitidos={['admin']}><FormularioProducto /></RutaProtegida>} />
+            <Route path='/pagar' element={<RutaProtegida><Pagar /></RutaProtegida>} />
+            <Route path='/dashboard' element={<RutaProtegida adminOnly={true}><Dashboard /></RutaProtegida>} />
+            <Route path='/agregar-producto' element={<RutaProtegida adminOnly={true}><FormularioProducto /></RutaProtegida>} />
           </Routes>
         </div>
       </main>
