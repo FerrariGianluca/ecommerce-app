@@ -1,13 +1,22 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
 import '../styles/navbar.css'
 import imgCarrito from '../assets/carrito.png';
 
 function Navbar() {
-  const { cantTotal } = useCartContext();
+  const { cantTotal, vaciarCarrito } = useCartContext();
   const { isAuthenticated, isAdmin, usuario, cerrarSesion } = useAuthContext();
+  const navigate = useNavigate();
+
+  const manejarCerrarSesion = () => {
+    navigate('/productos');
+    setTimeout(() => {
+      vaciarCarrito();
+      cerrarSesion();
+    }, 100)
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -53,7 +62,7 @@ function Navbar() {
               {isAuthenticated ? (
               <>
                 <span className='navbar-user'>Hola, {usuario.nombre}</span>
-                <button className='btn btn-danger' onClick={cerrarSesion}>Cerrar Sesión</button>
+                <button className='btn btn-danger' onClick={manejarCerrarSesion}>Cerrar Sesión</button>
               </>
               ) : (
                 <Link className='btn btn-success' to='/login'>Iniciar Sesión</Link>
