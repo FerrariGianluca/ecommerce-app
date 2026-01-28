@@ -8,14 +8,33 @@ function EditarProductos() {
 
     const [producto, setProducto] = useState({...productoOriginal});
     const [cargando, setCargando] = useState(false);
+    const [errores, setErrores] = useState({});
 
     const manejarCambio = (e) => {
         const { name, value } = e.target;
         setProducto(prev => ({ ...prev, [name]: value }));
     }
 
+    const validarFormulario = () => {
+        const errorDeCarga = {};
+        if(!producto.producto.trim()) errorDeCarga.nombre = 'El nombre es obligatorio.';
+        if(!producto.precio.trim()) errorDeCarga.precio = 'El precio es obligatorio.';
+        if(producto.stock==='') errorDeCarga.stock = 'El número de stock es obligatorio.';
+        else {
+            const precioLimpio = producto.precio.replace(/\./g, '').replace(',', '.');
+            const precioNumerico = parseFloat(precioLimpio);
+            if(!/^[\d.,]+$/.test(producto.precio.replace(/\./g, ''))) errorDeCarga.precio = 'Solo números, puntos o comas.';
+            else if(isNaN(precioNumerico)) errorDeCarga.precio = 'Precio no válido.';
+            else if(precioLimpio <= 0) errorDeCarga.precio = 'Debe ser mayor a 0.';
+        }
+        if(producto.descripcion.trim().length > 200) errorDeCarga.descripcion = 'Máximo 200 caracteres.';
+        setErrores(errorDeCarga);
+        return Object.keys(errorDeCarga).length === 0;
+    }
+
     const manejarEnvio = async (e) => {
         e.preventDefault();
+        if(!validarFormulario()) return;
         setCargando(true);
         try{
             const productoAEnviar = {
@@ -56,19 +75,25 @@ function EditarProductos() {
                         name="producto"
                         value={producto.producto}
                         onChange={manejarCambio}
-                        style={{ width: '100%', padding: '8px', marginTop: '5px' }}    
+                        className={`add-input ${errores.nombre ? 'red-border' : 'normal-border'}`}
                     />
+                    {errores.nombre && <p className='error'>{errores.nombre}</p>}
                 </div>
 
                 <div style={{ marginBottom: '15px' }}>
-                  <label>Descripción:</label>
-                  <textarea
-                    name="descripcion"
-                    value={producto.descripcion}
-                    onChange={manejarCambio}
-                    rows="4"
-                    style={{ width: '100%', padding: '8px', marginTop: '5px' }}
-                  />
+                    <label>Descripción:</label>
+                    <textarea
+                        name="descripcion"
+                        value={producto.descripcion}
+                        onChange={manejarCambio}
+                        rows="4"
+                        maxLength='200'
+                        placeholder='Máximo 200 caracteres.'
+                        className={`add-input ${errores.descripcion ? 'red-border' : 'normal-border'}`}
+                        style={{resize: 'vertical'}}
+                    />
+                    <div className='input-info'>{producto.descripcion.length}/200 caracteres</div>
+                    {errores.descripcion && <p className='error'>{errores.descripcion}</p>}
                 </div>
 
                 <div style={{ marginBottom: '15px' }}>
@@ -90,9 +115,10 @@ function EditarProductos() {
                         value={producto.precio}
                         onChange={manejarCambio}
                         placeholder="Ej: 40.000 o 40.000,50"
-                        style={{ width: '100%', padding: '8px', marginTop: '5px'}}
+                        className={`add-input ${errores.precio ? 'red-border' : 'normal-border'}`}
                     />
-                    <small style={{ color: '#666'}}>Formato: punto para miles, coma para decimales</small>
+                    <div className='input-info'>Formato argentino: punto para miles, sin decimales.</div>
+                    {errores.precio && <p className='error'>{errores.precio}</p>}
                 </div>
 
                 <div>
@@ -103,38 +129,25 @@ function EditarProductos() {
                     value={producto.stock}
                     onChange={manejarCambio}
                     placeholder='Ej: 23'
-                    style={{ width: '100%', padding: '8px', marginTop: '5px'}}
+                    className={`add-input ${errores.stock ? 'red-border' : 'normal-border'}`}
                 />
+                {errores.stock && <p className='error'>{errores.stock}</p>}
                 </div>
 
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <button
                         type="submit"
                         disabled={cargando}
-                        style={{
-                            flex: 1,
-                            padding: '12px',
-                            backgroundColor: cargando ? '#ccc' : '#007bff',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: cargando ? 'not-allowed' : 'pointer'
-                        }}
+                        className={`add-button ${cargando ? 'cargando' : 'not-cargando'}`}
+                        style={{cursor: cargando ? 'not-allowed' : 'pointer'}}
                     >
                         {cargando ? 'Actualizando...' : 'Confirmar Cambios'}
                     </button>
                     <button
                         type="button"
                         onClick={cancelarEdicion}
-                        style={{
-                            flex: 1,
-                            padding: '12px',
-                            backgroundColor: '#6c757d',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
-                        }}
+                        className={`add-button`}
+                        style={{backgroundColor: '#6c757d'}}
                     >
                         Cancelar
                     </button>

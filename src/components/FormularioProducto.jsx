@@ -95,7 +95,7 @@ function FormularioProducto() {
                     rows='4'
                     disabled={cargando}
                     maxLength='200'
-                    placeholder='Mínimo 10 caracteres, máximo 200.'
+                    placeholder='Máximo 200 caracteres.'
                     className={`add-input ${errores.descripcion ? 'red-border' : 'normal-border'}`}
                     style={{resize: 'vertical'}}
                 />
