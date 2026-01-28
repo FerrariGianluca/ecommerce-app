@@ -59,7 +59,8 @@ function FormularioProducto() {
         setCargando(true);
         try{
             const newProduct = await agregarProducto(producto);
-            navigate(`/productos/${newProduct.id}`);
+            const agregarOtro = window.confirm('Producto agregado correctamente!\n\n¿Desea agregar otro producto?');
+            if(!agregarOtro) navigate(`/productos/${newProduct.id}`);
             setProducto({producto: '', precio: '', descripcion: '', tipo: '', stock: ''});
             setErrores({});
         } catch (error) {
