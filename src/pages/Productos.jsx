@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/productos.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCartContext } from '../context/CartContext';
+import { useAuthContext } from '../context/AuthContext';
 
 function Productos() {
     const [productos, setProductos] = useState([]);
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const { sumarProducto, restarProducto, getCant } = useCartContext();
+    const { isAdmin } = useAuthContext();
 
     useEffect(() => {
         const fetchProductos = async () => {
@@ -66,6 +69,13 @@ function Productos() {
                     <button className='btn btn-danger' onClick={() => restarProducto(producto)}>-</button>
                   </div>
                   <Link to={`/productos/${producto.id}`}><button>Ver detalles</button></Link>
+                  {isAdmin && (
+                    <div>
+                      <button onClick={() => navigate("/editar-productos", { state: {producto:producto}})}>
+                        Editar
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

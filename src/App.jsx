@@ -15,6 +15,7 @@ import Login from './pages/Login';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 import FormularioProducto from './components/FormularioProducto';
+import EditarProductos from './components/EditarProductos';
 
 function App() {
   
@@ -33,6 +34,7 @@ function App() {
             <Route path='/pagar' element={<RutaProtegida><Pagar /></RutaProtegida>} />
             <Route path='/dashboard' element={<RutaProtegida adminOnly={true}><Dashboard /></RutaProtegida>} />
             <Route path='/agregar-producto' element={<RutaProtegida adminOnly={true}><FormularioProducto /></RutaProtegida>} />
+            <Route path='/editar-productos' element={<RutaProtegida adminOnly={true}><EditarProductos /></RutaProtegida>} />
           </Routes>
         </div>
       </main>
