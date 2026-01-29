@@ -53,26 +53,31 @@ function Productos() {
       <div className='container-page-productos'>
         <div className='container-productos'>
             {productos.map(producto=>(
-              <div key={producto.id} className="card" style={{width: '18rem'}}>
+              <div key={producto.id} className="card">
                 <div className="card-body">
-                  <img className="card-img-top" src={producto.img || '/no-image.jpg'} alt={producto.producto}
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = '/no-image.jpg';
-                    }}
-                  />
+                  <div className="card-image-wrapper">
+                    <img className="card-img-top" src={producto.img || '/no-image.jpg'} alt={producto.producto}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/no-image.jpg';
+                      }}
+                    />
+                    {getCant(producto.id) > 0 && (
+                      <span className="card-badge">
+                        {getCant(producto.id)}
+                      </span>
+                    )}
+                  </div>
                   <div className='card-title'>
                     <h5>{producto.producto}</h5>
-                    <p>{producto.descripcion}</p>
                   </div>
                   <ul className='card-list'>
                     <li><strong>Precio:</strong> ${producto.precio}</li>
                     <li><strong>Stock:</strong> {producto.stock}</li>
-                    <li><strong>Agregados:</strong> {getCant(producto.id)}</li>
                   </ul>
                   <div className="card-actions">
-                    <button className='btn btn-secondary' onClick={() => sumarProducto(producto)}>+</button>
-                    <button className='btn btn-secondary' onClick={() => restarProducto(producto)}>-</button>
+                    <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => sumarProducto(producto)}>+</button>
+                    <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => restarProducto(producto)}>-</button>
                   </div>
                   <Link to={`/productos/${producto.id}`}><button className='btn btn-success'>Ver detalles</button></Link>
                   {isAdmin && (
