@@ -1,5 +1,6 @@
 :root {
   --navbar-height: 50px;
+  --footer-height: 60px;
 }
 
 html, body, #root {

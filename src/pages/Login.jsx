@@ -42,6 +42,11 @@ function Login() {
                         required 
                     />
                 </div>
+                <div className='login-admin'>
+                    <small><strong>Credenciales para admin</strong></small>
+                    <small>Usuario: admin</small>
+                    <small>Password: admin</small>
+                </div>
                 <div className="login-actions">
                     <button className='btn btn-success' type='submit'>Iniciar Sesión</button>
                     <button className='btn btn-danger' type='button' onClick={() => navigate(-1)}>Cancelar</button>
