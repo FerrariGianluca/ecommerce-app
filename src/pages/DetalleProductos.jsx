@@ -1,6 +1,5 @@
 import { Link, useParams, useLocation } from "react-router-dom"
 import { useEffect, useState } from 'react';
-import noImage from '/no-image.jpg';
 
 function DetalleProductos(){
     const { id } = useParams();
@@ -47,7 +46,12 @@ function DetalleProductos(){
             <h2>Detalles del Producto</h2>
             <div className="card" >
                 <div className="card-body">
-                    <img class="card-img-top" src={producto.img || noImage} alt={producto.producto}></img>
+                    <img className="card-img-top" src={producto.img || '/no-image.jpg'} alt={producto.producto}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = '/no-image.jpg';
+                        }}
+                    />
                     <h5 className="card-title">{producto.producto}</h5>
                     <p className="card-text">{producto.descripcion.trim().length > 0 ? `Descripción: ${producto.descripcion}` : 'Sin descripción'}</p>
                     <p className="card-text">Precio: {producto.precio}</p>
