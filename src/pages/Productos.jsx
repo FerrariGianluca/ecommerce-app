@@ -65,14 +65,23 @@ function Productos() {
                     <li><strong>Agregados:</strong> {getCant(producto.id)}</li>
                   </ul>
                   <div className="card-actions">
-                    <button className='btn btn-success' onClick={() => sumarProducto(producto)}>+</button>
-                    <button className='btn btn-danger' onClick={() => restarProducto(producto)}>-</button>
+                    <button className='btn btn-secondary' onClick={() => sumarProducto(producto)}>+</button>
+                    <button className='btn btn-secondary' onClick={() => restarProducto(producto)}>-</button>
                   </div>
-                  <Link to={`/productos/${producto.id}`}><button>Ver detalles</button></Link>
+                  <Link to={`/productos/${producto.id}`}><button className='btn btn-success'>Ver detalles</button></Link>
                   {isAdmin && (
                     <div>
-                      <button onClick={() => navigate("/editar-productos", { state: {producto:producto}})}>
+                      <button 
+                        className='btn btn-primary'
+                        onClick={() => navigate("/editar-productos", { state: {producto:producto}})}
+                      >
                         Editar
+                      </button>
+                      <button 
+                        className='btn btn-danger'
+                        onClick={() => navigate("/eliminar-productos", { state: {producto:producto}})}
+                      >
+                        Eliminar
                       </button>
                     </div>
                   )}

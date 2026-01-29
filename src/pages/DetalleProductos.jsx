@@ -47,7 +47,7 @@ function DetalleProductos(){
             <div className="card" >
                 <div className="card-body">
                     <h5 className="card-title">{producto.producto}</h5>
-                    <p className="card-text">{producto.descripcion.trim() > 0 ? `Descripción: ${producto.descripcion}` : 'Sin descripción'}</p>
+                    <p className="card-text">{producto.descripcion.trim().length > 0 ? `Descripción: ${producto.descripcion}` : 'Sin descripción'}</p>
                     <p className="card-text">Precio: {producto.precio}</p>
                     <p className="card-text">SKU: {producto.id}</p>
                 </div>
