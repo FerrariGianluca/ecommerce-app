@@ -134,6 +134,17 @@ function EditarProductos() {
                 {errores.stock && <p className='error'>{errores.stock}</p>}
                 </div>
 
+                <div style={{ marginBottom: '15px' }}>
+                    <label>Imagen (URL):</label>
+                    <input
+                        type="text"
+                        name="img"
+                        value={producto.img}
+                        onChange={manejarCambio}
+                        style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+                    />
+                </div>
+
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <button
                         type="submit"

@@ -3,6 +3,7 @@ import '../styles/productos.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
+import noImage from '/no-image.jpg'
 
 function Productos() {
     const [productos, setProductos] = useState([]);
@@ -54,6 +55,7 @@ function Productos() {
         <div className='container-productos'>
             {productos.map(producto=>(
               <div key={producto.id} className="card" style={{width: '18rem'}}>
+                <img class="card-img-top" src={producto.img || noImage} alt={producto.producto}></img>
                 <div className="card-body">
                   <div className='card-title'>
                     <h5>{producto.producto}</h5>

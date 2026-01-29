@@ -147,6 +147,26 @@ function FormularioProducto() {
                 {errores.stock && <p className='error'>{errores.stock}</p>}
             </div>
 
+            <div style={{ marginBottom: '15px' }}>
+                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                    Imagen (URL):
+                </label>
+                <input
+                    type="text"
+                    name="img"
+                    value={producto.img}
+                    onChange={manejarCambio}
+                    disabled={cargando}
+                    placeholder="https://ejemplo.com/img.jpg"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ccc',
+                      borderRadius: '4px'
+                    }}
+                />
+            </div>
+
             <button type="submit" disabled={cargando} className={`add-button ${cargando ? 'cargando' : 'not-cargando'}`}>
                 {cargando ? 'Agregando...' : 'Agregar Producto'}
             </button>
