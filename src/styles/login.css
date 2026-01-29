@@ -1,6 +1,6 @@
 .login-container {
     width: 100%;
-    min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;

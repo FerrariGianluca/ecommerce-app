@@ -1,5 +1,6 @@
 :root {
   --navbar-height: 50px;
+  --navbar-padding: 0.5rem;
   --footer-height: 60px;
 }
 
@@ -9,7 +10,7 @@ html, body, #root {
 }
 
 .layout {
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -17,7 +18,7 @@ html, body, #root {
 .content {
   flex: 1;
   display: flex;
-  padding-top: var(--navbar-height)
+  padding-top: calc(var(--navbar-height) + var(--navbar-padding));
 }
 
 .page {
