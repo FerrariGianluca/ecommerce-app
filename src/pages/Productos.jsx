@@ -84,7 +84,7 @@ function Productos() {
                     <div>
                       <button 
                         className='btn btn-primary'
-                        onClick={() => navigate("/editar-productos", { state: {producto:producto}})}
+                        onClick={() => navigate("/formulario-producto", { state: {producto:producto}})}
                       >
                         Editar
                       </button>

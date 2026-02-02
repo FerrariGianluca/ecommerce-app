@@ -1,155 +1,163 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import '../styles/agregar-producto.css'
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useProducts } from '../context/ProductsContext';
+import "../styles/formulario-producto.css"
 
 function FormularioProducto() {
-    const [producto, setProducto] = useState({producto: '', precio: '', descripcion: '', tipo: '', stock: ''});
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { agregarProducto, editarProducto, validar } = useProducts();
+    
+    const productoRecibido = location.state?.producto;
+    const modo = productoRecibido ? "editar" : "agregar";
+    
+    const [producto, setProducto] = useState({
+        id: '',
+        producto: '',
+        precio: '',
+        descripcion: '',
+        tipo: '',
+        img: ''
+    });
+
     const [errores, setErrores] = useState({});
     const [cargando, setCargando] = useState(false);
-    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (modo === "editar" && productoRecibido) {
+            setProducto({
+                id: productoRecibido.id || '',
+                producto: productoRecibido.producto || '',
+                precio: productoRecibido.precio || '',
+                descripcion: productoRecibido.descripcion || '',
+                tipo: productoRecibido.tipo || '',
+                img: productoRecibido.img || ''
+            });
+        }
+    }, [modo, productoRecibido]);
 
     const manejarCambio = (e) => {
         const { name, value } = e.target;
-        if(name === 'producto' && value.length > 100) return;
-        if(name === 'descripcion' && value.length > 200 ) return;
-        if(name === 'tipo' && value.length > 50) return;
-        if(name === 'stock' && value < 0) return;
-        setProducto(prev => ({...prev, [name]: value}));
-        if(errores[name]) setErrores(prev => ({...prev, [name]: ''}));
-    }
+        if (name === 'descripcion' && value.length > 200) return;
+        setProducto(prev => ({ ...prev, [name]: value }));
+        if (errores[name]) setErrores(prev => ({ ...prev, [name]: '' }));
+    };
 
     const validarFormulario = () => {
-        const errorDeCarga = {};
-        if(!producto.producto.trim()) errorDeCarga.nombre = 'El nombre es obligatorio.';
-        if(!producto.precio.trim()) errorDeCarga.precio = 'El precio es obligatorio.';
-        if(producto.stock==='') errorDeCarga.stock = 'El número de stock es obligatorio.';
-        else {
-            const precioLimpio = producto.precio.replace(/\./g, '').replace(',', '.');
-            const precioNumerico = parseFloat(precioLimpio);
-            if(!/^[\d.,]+$/.test(producto.precio.replace(/\./g, ''))) errorDeCarga.precio = 'Solo números, puntos o comas.';
-            else if(isNaN(precioNumerico)) errorDeCarga.precio = 'Precio no válido.';
-            else if(precioLimpio <= 0) errorDeCarga.precio = 'Debe ser mayor a 0.';
-        }
-        if(producto.descripcion.trim().length > 200) errorDeCarga.descripcion = 'Máximo 200 caracteres.';
-        setErrores(errorDeCarga);
-        return Object.keys(errorDeCarga).length === 0;
-    }
-
-    const agregarProducto = async (producto) => {
-        try {
-            const productoAEnviar = {...producto, precio: producto.precio.replace(',','.')}
-            const respuesta = await fetch('https://695ad9991d8041d5eeb56822.mockapi.io/productos/products', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(productoAEnviar)
-            })
-            if(!respuesta.ok) throw new Error('Error al agregar el producto.');
-            const data = await respuesta.json();
-            alert('Producto agregado correctamente');
-            return data;
-        } catch(error) {
-            alert('Hubo un problema al agregar el producto.');
-            throw error;
-        }
-    }
+        const resultado = validar(producto);
+        setErrores(resultado.errores);
+        return resultado.esValido;
+    };
 
     const manejarEnvio = async (e) => {
         e.preventDefault();
-        if(!validarFormulario()) return;
+        
+        if (!validarFormulario()) return;
         setCargando(true);
-        try{
-            const newProduct = await agregarProducto(producto);
-            const agregarOtro = window.confirm('Producto agregado correctamente!\n\n¿Desea agregar otro producto?');
-            if(!agregarOtro) navigate(`/productos/${newProduct.id}`);
-            setProducto({producto: '', precio: '', descripcion: '', tipo: '', stock: ''});
+        
+        try {
+            const productoEnviar = { ...producto, precio: producto.precio.toString().replace(',', '.') };
+
+            if (modo === "agregar") {
+                const nuevoProducto = await agregarProducto(productoEnviar);
+                alert(`Producto "${nuevoProducto.producto}" agregado correctamente con ID: ${nuevoProducto.id}`);
+
+                setProducto({
+                      id: '',
+                      producto: '',
+                      precio: '',
+                      descripcion: '',
+                      tipo: '',
+                      img: ''
+                });
+                navigate(`/productos/${nuevoProducto.id}`);
+            } else {
+                await editarProducto(productoEnviar);
+                alert('Producto actualizado correctamente');    
+                navigate(`/productos/${producto.id}`);
+            }
             setErrores({});
         } catch (error) {
+            alert(`Hubo un problema al ${modo === "editar" ? 'actualizar' : 'agregar'} el producto`);
             console.error('Error:', error);
         } finally {
             setCargando(false);
         }
-    }
+    };
+
+    const cancelar = () => {
+        navigate('/productos');
+    };
 
     return (
-        <form className='add-form' onSubmit={manejarEnvio}>
-            <h2>Agregar Producto</h2>
+        <form onSubmit={manejarEnvio} style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+            <h2>{modo === "editar" ? 'Editar' : 'Agregar'} Producto</h2>
+
+            {modo === "editar" && productoRecibido && (
+                <p style={{ color: '#666', fontStyle: 'italic' }}>
+                    Editando: {productoRecibido.producto} (ID: {productoRecibido.id})
+                </p>
+            )}
+
+            {/* Campo Nombre */}
             <div className='input-container'>
-                <label className='input-title'>Nombre: *</label>
-                <input 
-                    type="text" 
+                <label className='input-title'>
+                    Nombre: *
+                </label>
+                <input
+                    type="text"
                     name="producto"
                     value={producto.producto}
                     onChange={manejarCambio}
                     disabled={cargando}
                     className={`add-input ${errores.nombre ? 'red-border' : 'normal-border'}`}
-                    placeholder='Ingrese el nombre del producto'
+                    placeholder="Ingrese el nombre del producto"
                 />
                 {errores.nombre && <p className='error'>{errores.nombre}</p>}
             </div>
 
+            {/* Campo Precio */}
             <div className='input-container'>
-                <label className='input-title'>Descripción:</label>
-                <input 
-                    name='descripcion'
-                    value={producto.descripcion}
+                <label className='input-title'>
+                    Precio: *
+                </label>
+                <input
+                    type="text"
+                    name="precio"
+                    value={producto.precio}
                     onChange={manejarCambio}
-                    rows='4'
                     disabled={cargando}
-                    maxLength='200'
-                    placeholder='Máximo 200 caracteres.'
-                    className={`add-input ${errores.descripcion ? 'red-border' : 'normal-border'}`}
-                    style={{resize: 'vertical'}}
+                    placeholder="Ej: 40.000"
+                    inputMode="decimal"
+                    className={`add-input ${errores.nombre ? 'red-border' : 'normal-border'}`}
                 />
-                <div className='input-info'>{producto.descripcion.length}/200 caracteres</div>
-                {errores.descripcion && <p className='error'>{errores.descripcion}</p>}
+                <div className='input-info'>
+                    Formato argentino: punto para miles, sin decimales.
+                </div>
+                {errores.precio && <p className='error'>{errores.precio}</p>}
             </div>
 
+
+            {/* Campo Tipo */}
             <div className='input-container'>
-                <label className='input-title'>Tipo:</label>
-                <input 
+                <label className='input-title'>
+                    Tipo:
+                </label>
+                <input
                     type="text"
-                    name='tipo'
+                    name="tipo"
                     value={producto.tipo}
                     onChange={manejarCambio}
                     disabled={cargando}
-                    placeholder='Ej: Verduras, frutas, frescos, etc.'
+                    placeholder="Ej: Electrónica, Ropa, Hogar, etc."
                     className='add-input normal-border'
                 />
             </div>
 
+            {/* Campo img URL */}
             <div className='input-container'>
-                <label className='input-title'>Precio: *</label>
-                <input 
-                    type="text"
-                    name='precio'
-                    value={producto.precio}
-                    onChange={manejarCambio}
-                    disabled={cargando}
-                    placeholder='Ej: 40.000 o 40.000,50'
-                    inputMode='decimal'
-                    className={`add-input ${errores.precio ? 'red-border' : 'normal-border'}`}
-                />
-                <div className='input-info'>Formato argentino: punto para miles, sin decimales.</div>
-                {errores.precio && <p className='error'>{errores.precio}</p>}
-            </div>
-
-            <div className='input-container'>
-                <label className='input-title'>Stock: *</label>
-                <input 
-                    type="number"
-                    name='stock'
-                    value={producto.stock}
-                    onChange={manejarCambio}
-                    disabled={cargando}
-                    placeholder='Ej: 23'
-                    className={`add-input ${errores.stock ? 'red-border' : 'normal-border'}`}
-                />
-                {errores.stock && <p className='error'>{errores.stock}</p>}
-            </div>
-
-            <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                    Imagen (URL):
+                <label className='input-title'>
+                  Imagen (URL):
                 </label>
                 <input
                     type="text"
@@ -158,21 +166,56 @@ function FormularioProducto() {
                     onChange={manejarCambio}
                     disabled={cargando}
                     placeholder="https://ejemplo.com/img.jpg"
-                    style={{
-                      width: '100%',
-                      padding: '8px',
-                      border: '1px solid #ccc',
-                      borderRadius: '4px'
-                    }}
+                    className='add-input normal-border'
                 />
             </div>
 
-            <button type="submit" disabled={cargando} className={`add-button ${cargando ? 'cargando' : 'not-cargando'}`}>
-                {cargando ? 'Agregando...' : 'Agregar Producto'}
-            </button>
+            {/* Campo Descripción */}
+            <div className='input-container'>
+                <label className='input-title'>
+                    Descripción: *
+                </label>
+                <textarea
+                    name="descripcion"
+                    value={producto.descripcion}
+                    onChange={manejarCambio}
+                    rows="4"
+                    disabled={cargando}
+                    maxLength="200"
+                    placeholder="Máximo 200 caracteres"
+                    className={`add-input ${errores.descripcion ? 'red-border' : 'normal-border'}`}
+                    style={{resize: 'vertical'}}
+                />
+                <div className='input-info'>
+                    {producto.descripcion.length}/200 caracteres
+                </div>
+                {errores.descripcion && (
+                    <p className='error'>{errores.descripcion}</p>
+                )}
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                <button
+                    type="submit"
+                    disabled={cargando}
+                    className={`add-button ${cargando ? 'cargando' : 'not-cargando'}`}
+                >
+                {cargando
+                    ? (modo === "editar" ? 'Actualizando...' : 'Agregando...')
+                    : (modo === "editar" ? 'Confirmar Cambios' : 'Agregar Producto')
+                }
+                </button>
+            
+                <button
+                    type="button"
+                    onClick={cancelar}
+                    className='add-button cancelar'
+                >
+                    Cancelar
+                </button>
+            </div>
+          
             <p>(*) Campos obligatorios</p>
         </form>
-    )
-}
-
-export default FormularioProducto
+    );
+} export default FormularioProducto;
