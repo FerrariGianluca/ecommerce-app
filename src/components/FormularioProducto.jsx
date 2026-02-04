@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useProducts } from '../context/ProductsContext';
+import { useProductsContext } from '../context/ProductsContext';
 import "../styles/formulario-producto.css"
 
 function FormularioProducto() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { agregarProducto, editarProducto, validar } = useProducts();
+    const { agregarProducto, editarProducto, validar } = useProductsContext();
     
     const productoRecibido = location.state?.producto;
     const modo = productoRecibido ? "editar" : "agregar";

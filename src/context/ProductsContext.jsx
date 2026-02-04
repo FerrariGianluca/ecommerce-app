@@ -38,20 +38,21 @@ export const ProductsProvider = ({ children }) => {
         };
     };
 
+    const cargarProductos = async () => {
+        try {
+            const respuesta = await fetch('https://695ad9991d8041d5eeb56822.mockapi.io/productos/products/');
+            if (!respuesta.ok) throw new Error('Error al cargar productos');
+            const datos = await respuesta.json();
+            setProductos(datos);
+        } catch (error) {
+            console.error('Error al cargar productos:', error);
+            setError("Hubo un problema al cargar los productos.");
+        } finally {
+            setCargando(false);
+        }
+    };
+
     useEffect(() => {
-        const cargarProductos = async () => {
-            try {
-                const respuesta = await fetch('https://695ad9991d8041d5eeb56822.mockapi.io/productos/products/');
-                if (!respuesta.ok) throw new Error('Error al cargar productos');
-                const datos = await respuesta.json();
-                setProductos(datos);
-            } catch (error) {
-                console.error('Error al cargar productos:', error);
-                setError("Hubo un problema al cargar los productos.");
-            } finally {
-                setCargando(false);
-            }
-        };
         cargarProductos();
     }, []);
 
@@ -96,7 +97,8 @@ export const ProductsProvider = ({ children }) => {
         agregarProducto,
         editarProducto,
         validarProducto,
-        validar
+        validar,
+        cargarProductos
     }
 
     return (
@@ -107,8 +109,8 @@ export const ProductsProvider = ({ children }) => {
 };
 
 // Hook personalizado para el contexto
-export const useProducts = () => {
+export const useProductsContext = () => {
     const context = useContext(ProductsContext);
-    if (!context) throw new Error('useProducts debe ser usado dentro de un ProductsProvider');
+    if (!context) throw new Error('useProductsContext debe ser usado dentro de un ProductsProvider');
     return context;
 };
