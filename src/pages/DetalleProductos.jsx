@@ -42,24 +42,53 @@ function DetalleProductos(){
     }
 
     return (
-        <>
-            <h2>Detalles del Producto</h2>
-            <div className="card" >
-                <div className="card-body">
-                    <img className="card-img-top" src={producto.img || '/no-image.jpg'} alt={producto.producto}
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = '/no-image.jpg';
-                        }}
-                    />
-                    <h5 className="card-title">{producto.producto}</h5>
-                    <p className="card-text">{producto.descripcion.trim().length > 0 ? `Descripción: ${producto.descripcion}` : 'Sin descripción'}</p>
-                    <p className="card-text">Precio: {producto.precio}</p>
-                    <p className="card-text">SKU: {producto.id}</p>
+        <div className="container-md py-3">
+            <h2 mb-3>Detalles del Producto</h2>
+            <div className="row align-items-start g-0 mb-4">
+                <div className="col-md-6">
+                    <div className="card border-0">
+                        <div className="card-body align-items-center text-center p-2">
+                            <img className="img-fluid rounded w-75" src={producto.img || '/no-image.jpg'} alt={producto.producto}
+                                onError={(e) => {
+                                  e.currentTarget.onerror = null;
+                                  e.currentTarget.src = '/no-image.jpg';
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <div className="card border-0">
+                        <div className="card-body p-1">
+                            <h4 className="text-primary mb-2">{producto.producto}</h4>
+                            <div className="mb-2">
+                                {!producto.descripcion.trim() ? (
+                                    <p>Sin descricpión</p>
+                                ) : (
+                                    <>
+                                        <strong>Descripción:</strong>
+                                        <p className="card-text mb-1">{producto.descripcion}</p>
+                                    </>
+                                )}
+                            </div>
+                            <div className="mb-2">
+                                <strong>Tipo:</strong>
+                                <span className="badge bg-secondary ms-1">{producto.tipo}</span>
+                            </div>
+                            <div>
+                                <strong>Precio:</strong>
+                                <h5 className="text-success d-inline ms-1">${producto.precio}</h5>
+                            </div>
+                            <div>
+                                <strong>ID:</strong>
+                                <span>{producto.id}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <Link to="/productos"><button>Volver</button></Link>
-        </>
+        </div>
     )
 }
 
