@@ -20,16 +20,17 @@ function Pagar() {
                 <button onClick={cerrarSesion}>Cerrar Sesión</button>
             </div>
 
-            <div>
-                <h2>Tu compra:</h2>
+            <div className="p-5">
+                <h2 className="mb-4">Tu compra:</h2>
+                <div className="border-bottom">
                 {carrito.map(producto => (
                     <div key={producto.id}>
-                        <span>{producto.producto} x{producto.cant} - </span>
-                        <strong>${(producto.precio * producto.cant).toFixed(2)}</strong>
+                        <span className="fs-5 fw-bold text-danger">{producto.producto} x{producto.cant} - </span>
+                        <span className="fs-5">${(producto.precio * producto.cant).toFixed(2)}</span>
                     </div>
                 ))}
-                <hr />
-                <strong>Total: </strong><span>${precioTotal}</span>
+                </div>
+                <p className="fs-5 text-dark bg-light rounded-4 p-2 shadow-sm"><span className="fw-bold">Total:</span><span> ${precioTotal}</span></p>
             </div>
 
             <div>
