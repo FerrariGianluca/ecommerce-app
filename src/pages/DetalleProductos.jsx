@@ -1,5 +1,6 @@
 import { Link, useParams, useLocation } from "react-router-dom"
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 function DetalleProductos(){
     const { id } = useParams();
@@ -87,9 +88,27 @@ function DetalleProductos(){
                     </div>
                 </div>
             </div>
-            <Link to="/productos"><button>Volver</button></Link>
+            <Link to="/productos">
+                <BotonEstilizado>Volver</BotonEstilizado>
+            </Link>
         </div>
     )
 }
 
 export default DetalleProductos
+
+// Nombre de variable, styled.{nombre de etiqueta}, literales ``
+const BotonEstilizado = styled.button`
+    background: white;
+    color: black;
+    border: 1px solid black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    &:hover {
+        background: #31312eff;
+        color: white;
+    }
+`
