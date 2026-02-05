@@ -4,6 +4,7 @@ import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
 import '../styles/navbar.css'
 import imgCarrito from '../assets/carrito.png';
+import { FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
   const { cantTotal, vaciarCarrito } = useCartContext();
@@ -55,7 +56,8 @@ function Navbar() {
             <div className='navbar-data'>
               <Link to="/carrito" className='cart-container'>
                 <div className='container-carrito'>
-                  <img src={imgCarrito} alt="Carrito" className='img-carrito'/>
+                  <FaShoppingCart className='img-carrito'></FaShoppingCart>
+                  {/* <img src={imgCarrito} alt="Carrito" className='img-carrito'/> */}
                 </div>
                 {cantTotal > 0 && <span className='carrito-badge'>({cantTotal})</span>}
               </Link>
