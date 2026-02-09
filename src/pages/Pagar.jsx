@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Pagar() {
     const navigate = useNavigate();
@@ -8,7 +10,7 @@ function Pagar() {
     const { usuario, cerrarSesion } = useAuthContext();
 
     const comprar = () => {
-        alert('¡Compra realizada con éxito');
+        toast.success('¡Compra realizada con éxito!');
         navigate('/productos');
         vaciarCarrito();
     }

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useProductsContext } from '../context/ProductsContext';
 import "../styles/formulario-producto.css"
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FormularioProducto() {
     const navigate = useNavigate();
@@ -60,7 +62,7 @@ function FormularioProducto() {
 
             if (modo === "agregar") {
                 const nuevoProducto = await agregarProducto(productoEnviar);
-                alert(`Producto "${nuevoProducto.producto}" agregado correctamente con ID: ${nuevoProducto.id}`);
+                toast.success(`Producto "${nuevoProducto.producto}" agregado correctamente con ID: ${nuevoProducto.id}`);
 
                 setProducto({
                       id: '',
@@ -73,12 +75,12 @@ function FormularioProducto() {
                 navigate(`/productos/${nuevoProducto.id}`);
             } else {
                 await editarProducto(productoEnviar);
-                alert('Producto actualizado correctamente');    
+                toast.success('Producto actualizado correctamente');
                 navigate(`/productos/${producto.id}`);
             }
             setErrores({});
         } catch (error) {
-            alert(`Hubo un problema al ${modo === "editar" ? 'actualizar' : 'agregar'} el producto`);
+            toast.error(`Hubo un problema al ${modo === "editar" ? 'actualizar' : 'agregar'} el producto`);
             console.error('Error:', error);
         } finally {
             setCargando(false);

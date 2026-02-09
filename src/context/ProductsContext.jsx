@@ -90,12 +90,34 @@ export const ProductsProvider = ({ children }) => {
         }
     };
 
+    const eliminarProducto = async (productoAEliminar) => {
+        if (!productoAEliminar) return;
+        setCargando(true);
+        try {
+            const respuesta = await
+            fetch(`https://695ad9991d8041d5eeb56822.mockapi.io/productos/products/${productoAEliminar.id}`, {
+                method: 'DELETE',
+            });
+            if (!respuesta.ok) throw new Error('Error al eliminar el producto.');
+            setProductos(prev =>
+                prev.filter(producto => producto.id !== productoAEliminar.id)
+            );
+            return true;
+        } catch (error) {
+            console.error(error.message);
+            toast.error('Hubo un problema al eliminar el producto.');
+        } finally {
+            setCargando(false);
+        }
+    };
+
     const value = {
         productos,
         cargando,
         error,
         agregarProducto,
         editarProducto,
+        eliminarProducto,
         validarProducto,
         validar,
         cargarProductos

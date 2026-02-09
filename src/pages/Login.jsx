@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuthContext } from '../context/AuthContext';
 import '../styles/login.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
     const navigate = useNavigate();
@@ -12,7 +14,7 @@ function Login() {
     const handleSubmit = e => {
         e.preventDefault();
         if (!form.nombre || !form.password) {
-            alert("Completa todos los datos");
+            toast.error("Completa todos los datos");
             return;
         }
         const rol = iniciarSesion(form);
@@ -32,14 +34,12 @@ function Login() {
                         placeholder='Nombre Completo' 
                         value={form.nombre} 
                         onChange={e=>setForm({...form, nombre: e.target.value})} 
-                        required 
                     />
                     <input 
                         type='password' 
                         placeholder='Contraseña' 
                         value={form.password} 
                         onChange={e=>setForm({...form, password: e.target.value})} 
-                        required 
                     />
                 </div>
                 <div className='login-admin'>

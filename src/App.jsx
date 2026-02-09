@@ -15,7 +15,7 @@ import Login from './pages/Login';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 import FormularioProducto from './components/FormularioProducto';
-import EliminarProductos from './components/EliminarProductos';
+import { ToastContainer } from "react-toastify";
 
 function App() {
 
@@ -24,6 +24,13 @@ function App() {
       <Navbar />
       <main className="content">
         <div className="page">
+          <ToastContainer
+            position="bottom-left"
+            autoClose={3000}
+            hideProgressBar={false}
+            closeOnClick
+            pauseOnHover
+          />
           <Routes>
             <Route path='/' element={<Inicio />} />
             <Route path='/servicios' element={<Servicios />} />
@@ -34,7 +41,6 @@ function App() {
             <Route path='/pagar' element={<RutaProtegida><Pagar /></RutaProtegida>} />
             <Route path='/dashboard' element={<RutaProtegida adminOnly={true}><Dashboard /></RutaProtegida>} />
             <Route path="/formulario-producto" element={<RutaProtegida adminOnly={true}><FormularioProducto /></RutaProtegida>} />
-            <Route path='/eliminar-productos' element={<RutaProtegida adminOnly={true}><EliminarProductos /></RutaProtegida>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

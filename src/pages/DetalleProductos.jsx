@@ -44,7 +44,7 @@ function DetalleProductos(){
 
     return (
         <div className="container-md py-3">
-            <h2 mb-3>Detalles del Producto</h2>
+            <h2 className="mb-3">Detalles del Producto</h2>
             <div className="row align-items-start g-0 mb-4">
                 <div className="col-md-6">
                     <div className="card border-0">
