@@ -47,6 +47,7 @@
   padding: 0;
   margin: 10px 0;
   font-size: 0.85rem;
+  list-style: none;
 }
 .card-list li {
   margin-bottom: 4px;
