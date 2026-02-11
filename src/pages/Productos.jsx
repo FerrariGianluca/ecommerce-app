@@ -7,6 +7,34 @@ import { useProductsContext } from '../context/ProductsContext';
 function Productos() {
     const { productos, cargando, error,cargarProductos } = useProductsContext();
 
+    useEffect(() => {
+      document.title = "Supermercado | Mi E-Commerce"
+
+      // Función para actualizar meta tags
+      const updateMetaTag = (name, content, attribute = 'name') => {
+        let meta = document.querySelector(`meta[${attribute}="${name}"]`);
+        if(!meta){
+          meta = document.createElement("meta");
+          meta.setAttribute(attribute, name);
+          document.head.appendChild(meta);
+        }
+        meta.setAttribute("content", content);
+      }
+
+      // Meta tags básicos
+      updateMetaTag("description", "Explora los productos de nuestro supermercado online.");
+      updateMetaTag("keywords", "supermercado, ecommerce, productos alimenticios, compras online");
+      updateMetaTag("author", "Mi E-Commerce");
+      updateMetaTag("robots", "index, follow");
+
+      // Open Graph
+      updateMetaTag("og:title", "Supermercado | Mi E-Commerce", "property");
+      updateMetaTag("og:description", "Explora los productos de nuestro supermercado online.", "property");
+      updateMetaTag("og:type", "website", "property");
+      updateMetaTag("og:image", `${window.location.origin}/assets/carrito.png`, "property");
+      updateMetaTag("og:url", window.location.href, "property");
+    }, [])
+
     if (cargando)
     return ( 
       <div className="container-carga">
