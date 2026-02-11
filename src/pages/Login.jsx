@@ -26,21 +26,27 @@ function Login() {
     };
     return (
         <div className='login-container'>
-            <h1 className='login-title'>Inicia sesión para continuar</h1>
             <form className='login-form' onSubmit={handleSubmit}>
+                <h1 className='d-flex gap-3'>
+                    <img src="/favicon.svg" className='img-carrito' alt="mi e-commerce" /><span>Mi E-Commerce</span>
+                </h1>
                 <div className="login-inputs">
-                    <input 
-                        type='text' 
-                        placeholder='Nombre Completo' 
-                        value={form.nombre} 
-                        onChange={e=>setForm({...form, nombre: e.target.value})} 
-                    />
-                    <input 
-                        type='password' 
-                        placeholder='Contraseña' 
-                        value={form.password} 
-                        onChange={e=>setForm({...form, password: e.target.value})} 
-                    />
+                    <div className='login-input'>
+                        <label htmlFor="">Nombre Completo</label>
+                        <input 
+                            type='text' 
+                            value={form.nombre} 
+                            onChange={e=>setForm({...form, nombre: e.target.value})} 
+                        />
+                    </div>
+                    <div className='login-input'>
+                        <label htmlFor="">Contraseña</label>
+                        <input 
+                            type='password' 
+                            value={form.password} 
+                            onChange={e=>setForm({...form, password: e.target.value})} 
+                        />
+                    </div>
                 </div>
                 <div className='login-admin'>
                     <small><strong>Credenciales para admin</strong></small>
