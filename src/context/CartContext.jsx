@@ -23,14 +23,19 @@ export function CartProvider({children}){
                 ? carritoActual.map(p => p.id === producto.id ? { ...p, cant: p.cant + 1 } : p)
                 : [...carritoActual, { ...producto, cant: 1 }]
             );
+            return true
         }
     };
 
     const restarProducto = producto => {
-      setCarrito(carritoActual => 
-        carritoActual
-          .map(p => p.id === producto.id ? { ...p, cant: p.cant - 1 } : p )
-          .filter(p => p.cant > 0));
+        const existe = carrito.some(p => p.id === producto.id);
+        if (!existe) return false
+        setCarrito(carritoActual => 
+            carritoActual
+                .map(p => p.id === producto.id ? { ...p, cant: p.cant - 1 } : p )
+                .filter(p => p.cant > 0)
+            );
+        return true
     }
 
     const precioTotal = Number(carrito.reduce((suma, producto) => suma + producto.precio * producto.cant, 0)).toFixed(2);

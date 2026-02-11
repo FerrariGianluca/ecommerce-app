@@ -5,7 +5,6 @@ import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
 import { useProductsContext } from '../context/ProductsContext';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function ProductoItem({producto}) {
     const navigate = useNavigate();
@@ -59,6 +58,16 @@ function ProductoItem({producto}) {
       );
     };
 
+    const handleSuma = producto => {
+      const agregado = sumarProducto(producto)
+      if(agregado) toast.success("Producto agregado correctamente.")
+    }
+
+    const handleResta = producto => {
+      const eliminado = restarProducto(producto)
+      if(eliminado) toast.success("Producto eliminado correctamente.")
+    }
+
     return (
         <div className="card">
             <div className="card-body">
@@ -83,8 +92,8 @@ function ProductoItem({producto}) {
                   <li><strong>Stock:</strong> {producto.stock}</li>
                 </ul>
                 <div className="card-actions">
-                  <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => sumarProducto(producto)}>+</button>
-                  <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => restarProducto(producto)}>-</button>
+                  <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => handleSuma(producto)}>+</button>
+                  <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => handleResta(producto)}>-</button>
                 </div>
                 <Link to={`/productos/${producto.id}`}><button type="button" className='btn btn-success'>Ver detalles</button></Link>
                 {isAdmin && (

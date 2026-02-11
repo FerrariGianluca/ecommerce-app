@@ -16,6 +16,7 @@ import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 import FormularioProducto from './components/FormularioProducto';
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -24,13 +25,6 @@ function App() {
       <Navbar />
       <main className="content">
         <div className="page">
-          <ToastContainer
-            position="bottom-left"
-            autoClose={3000}
-            hideProgressBar={false}
-            closeOnClick
-            pauseOnHover
-          />
           <Routes>
             <Route path='/' element={<Inicio />} />
             <Route path='/servicios' element={<Servicios />} />
@@ -46,6 +40,15 @@ function App() {
         </div>
       </main>
       <Footer />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        theme='colored'
+      />
     </div>
   )
 }

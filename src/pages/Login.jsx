@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuthContext } from '../context/AuthContext';
 import '../styles/login.css';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
     const navigate = useNavigate();
