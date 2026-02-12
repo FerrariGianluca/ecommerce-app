@@ -1,6 +1,5 @@
 #mainNavbar{
     justify-content: end;
-    min-height: var(--navbar-height);
 }
 .navbar-data{
     display: flex;

@@ -1,8 +1,8 @@
 .container-page-productos{
+  flex: 1;
   width: 100%;
   padding: 1em;
   background-color: #f0f0f0;
-  height: 100%;
 }
 .container-productos {
   display: grid;
