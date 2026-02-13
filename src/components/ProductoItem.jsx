@@ -1,6 +1,6 @@
 import React from 'react'
 import '../styles/productos.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
 import { useProductsContext } from '../context/ProductsContext';
@@ -11,6 +11,7 @@ function ProductoItem({producto}) {
     const { sumarProducto, restarProducto, getCant } = useCartContext();
     const { isAdmin } = useAuthContext();
     const { eliminarProducto } = useProductsContext();
+    const isDisabled = producto.stock === getCant(producto.id);
 
     const CONFIRM_DELETE_TOAST_ID = "confirm-delete";
     const confirmarEliminar = (producto) => {
@@ -60,16 +61,18 @@ function ProductoItem({producto}) {
 
     const handleSuma = producto => {
       const agregado = sumarProducto(producto)
-      if(agregado) toast.success("Producto agregado correctamente.")
+      if(agregado) toast.success("Producto agregado al carrito")
     }
 
     const handleResta = producto => {
       const eliminado = restarProducto(producto)
-      if(eliminado) toast.success("Producto eliminado correctamente.")
+      if(eliminado) toast.success("Producto eliminado del carrito")
     }
 
+    const handleCardClick = () => navigate(`/productos/${producto.id}`)
+
     return (
-        <div className="card">
+        <div className="card" role="button" onClick={handleCardClick}>
             <div className="card-body">
                 <div className="card-image-wrapper">
                   <img className="card-img-top" src={producto.img || '/no-image.jpg'} alt={producto.producto}
@@ -88,32 +91,51 @@ function ProductoItem({producto}) {
                   <h5>{producto.producto}</h5>
                 </div>
                 <ul className='card-list'>
-                  <li><strong>Precio:</strong> ${producto.precio}</li>
-                  <li><strong>Stock:</strong> {producto.stock}</li>
+                  <li>Precio: ${producto.precio}</li>
                 </ul>
-                <div className="card-actions">
-                  <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => handleSuma(producto)}>+</button>
-                  <button className='btn btn-secondary rounded-pill btn-sm' onClick={() => handleResta(producto)}>-</button>
+                <div className="card-actions" onClick={(e) => e.stopPropagation()}>
+                  {getCant(producto.id) > 0 ? (
+                    <div className='card-actions-count'>
+                      <button 
+                        className='btn btn-secondary rounded-pill btn-sm'
+                        onClick={() => handleResta(producto)}
+                      >-</button>
+                      <span className='items-add'>{getCant(producto.id)}</span>
+                      <button
+                        className={`btn btn-success rounded-pill btn-sm ${isDisabled ? 'disabled' : ''}`}
+                        onClick={() => {
+                          if (isDisabled) return;
+                          handleSuma(producto)
+                        }}
+                      >+</button>
+                    </div>
+                  ):(
+                    <button
+                      className='btn btn-success'
+                      onClick={() => handleSuma(producto)}
+                    >
+                      Agregar
+                    </button>
+                  )}
+                  {isAdmin && (
+                    <div className='card-actions-admin'>
+                      <button 
+                        type="button"
+                        className='btn btn-primary'
+                        onClick={() => navigate("/formulario-producto", { state: {producto:producto}})}
+                      >
+                        Editar
+                      </button>
+                      <button 
+                        type="button"
+                        className='btn btn-danger'
+                        onClick={() => confirmarEliminar(producto)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <Link to={`/productos/${producto.id}`}><button type="button" className='btn btn-success'>Ver detalles</button></Link>
-                {isAdmin && (
-                  <div>
-                    <button 
-                      type="button"
-                      className='btn btn-primary'
-                      onClick={() => navigate("/formulario-producto", { state: {producto:producto}})}
-                    >
-                      Editar
-                    </button>
-                    <button 
-                      type="button"
-                      className='btn btn-danger'
-                      onClick={() => confirmarEliminar(producto)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                )}
             </div>
         </div>
     )
