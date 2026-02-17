@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useProductsContext } from '../context/ProductsContext';
-import "../styles/formulario-producto.css"
 import { toast } from "react-toastify";
 
 function FormularioProducto() {
@@ -23,6 +22,7 @@ function FormularioProducto() {
 
     const [errores, setErrores] = useState({});
     const [cargando, setCargando] = useState(false);
+    const [touched, setTouched] = useState(false);
 
     useEffect(() => {
         if (modo === "editar" && productoRecibido) {
@@ -52,7 +52,8 @@ function FormularioProducto() {
 
     const manejarEnvio = async (e) => {
         e.preventDefault();
-        
+      
+        setTouched(true);
         if (!validarFormulario()) return;
         setCargando(true);
         
@@ -91,36 +92,39 @@ function FormularioProducto() {
     };
 
     return (
-        <form onSubmit={manejarEnvio} style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-            <h2>{modo === "editar" ? 'Editar' : 'Agregar'} Producto</h2>
+        <form onSubmit={manejarEnvio} className="card p-4 shadow-sm mx-auto mt-4" style={{ maxWidth: '600px' }}>
+            <div className="form-group">
+                <h2>{modo === "editar" ? 'Editar' : 'Agregar'} Producto</h2>
 
-            {modo === "editar" && productoRecibido && (
-                <p style={{ color: '#666', fontStyle: 'italic' }}>
-                    Editando: {productoRecibido.producto} (ID: {productoRecibido.id})
-                </p>
-            )}
+                {modo === "editar" && productoRecibido && (
+                    <p style={{ color: '#666', fontStyle: 'italic' }}>
+                        Editando: {productoRecibido.producto} (ID: {productoRecibido.id})
+                    </p>
+                )}
 
-            {/* Campo Nombre */}
-            <div className='input-container'>
-                <label className='input-title'>
-                    Nombre: *
-                </label>
-                <input
-                    type="text"
-                    name="producto"
-                    value={producto.producto}
-                    onChange={manejarCambio}
-                    disabled={cargando}
-                    className={`add-input ${errores.nombre ? 'red-border' : 'normal-border'}`}
-                    placeholder="Ingrese el nombre del producto"
-                />
-                {errores.nombre && <p className='error'>{errores.nombre}</p>}
+                {/* Campo Nombre */}
+                <div>
+                    <label htmlFor="producto">
+                        Nombre: <strong>*</strong>
+                    </label>
+                    <input
+                        type="text"
+                        name="producto"
+                        value={producto.producto}
+                        onChange={manejarCambio}
+                        disabled={cargando}
+                        id="producto"
+                        className={`form-control ${touched && errores.producto ? 'is-invalid' : ''}`}
+                        placeholder="Ingrese el nombre del producto"
+                    />
+                    <div className="invalid-feedback">{errores.producto}</div>
+                </div>
             </div>
 
             {/* Campo Precio */}
-            <div className='input-container'>
-                <label className='input-title'>
-                    Precio: *
+            <div>
+                <label htmlFor="precio">
+                    Precio: <strong>*</strong>
                 </label>
                 <input
                     type="text"
@@ -130,18 +134,19 @@ function FormularioProducto() {
                     disabled={cargando}
                     placeholder="Ej: 40.000"
                     inputMode="decimal"
-                    className={`add-input ${errores.nombre ? 'red-border' : 'normal-border'}`}
+                    id="precio"
+                    className={`form-control ${touched && errores.precio ? 'is-invalid' : ''}`}
                 />
-                <div className='input-info'>
+                <div className='form-text'>
                     Formato argentino: punto para miles, sin decimales.
                 </div>
-                {errores.precio && <p className='error'>{errores.precio}</p>}
+                <div className="invalid-feedback">{errores.precio}</div>
             </div>
 
 
             {/* Campo Tipo */}
-            <div className='input-container'>
-                <label className='input-title'>
+            <div>
+                <label htmlFor="tipo">
                     Tipo:
                 </label>
                 <input
@@ -151,13 +156,14 @@ function FormularioProducto() {
                     onChange={manejarCambio}
                     disabled={cargando}
                     placeholder="Ej: Electrónica, Ropa, Hogar, etc."
-                    className='add-input normal-border'
+                    id="tipo"
+                    className='form-control'
                 />
             </div>
 
             {/* Campo img URL */}
-            <div className='input-container'>
-                <label className='input-title'>
+            <div>
+                <label htmlFor="img">
                   Imagen (URL):
                 </label>
                 <input
@@ -167,14 +173,15 @@ function FormularioProducto() {
                     onChange={manejarCambio}
                     disabled={cargando}
                     placeholder="https://ejemplo.com/img.jpg"
-                    className='add-input normal-border'
+                    id="img"
+                    className='form-control'
                 />
             </div>
 
             {/* Campo Descripción */}
-            <div className='input-container'>
-                <label className='input-title'>
-                    Descripción: *
+            <div className='form-group'>
+                <label htmlFor="descripcion">
+                    Descripción:
                 </label>
                 <textarea
                     name="descripcion"
@@ -184,39 +191,38 @@ function FormularioProducto() {
                     disabled={cargando}
                     maxLength="200"
                     placeholder="Máximo 200 caracteres"
-                    className={`add-input ${errores.descripcion ? 'red-border' : 'normal-border'}`}
+                    id="descripcion"
+                    className={`form-control ${errores.descripcion ? 'is-invalid' : ''}`}
                     style={{resize: 'vertical'}}
                 />
-                <div className='input-info'>
+                <div className='form-text'>
                     {producto.descripcion.length}/200 caracteres
                 </div>
-                {errores.descripcion && (
-                    <p className='error'>{errores.descripcion}</p>
-                )}
+                <div className="invalid-feedback">{errores.descripcion}</div>
             </div>
 
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+            <div className="d-flex gap-2 mb-3">
                 <button
                     type="submit"
                     disabled={cargando}
-                    className={`add-button ${cargando ? 'cargando' : 'not-cargando'}`}
+                    className="btn btn-success w-100"
                 >
-                {cargando
-                    ? (modo === "editar" ? 'Actualizando...' : 'Agregando...')
-                    : (modo === "editar" ? 'Confirmar Cambios' : 'Agregar Producto')
-                }
+                    {cargando
+                        ? (modo === "editar" ? 'Actualizando...' : 'Agregando...')
+                        : (modo === "editar" ? 'Confirmar Cambios' : 'Agregar Producto')
+                    }
                 </button>
-            
+                
                 <button
                     type="button"
                     onClick={cancelar}
-                    className='add-button cancelar'
+                    className="btn btn-outline-danger w-100"
                 >
                     Cancelar
                 </button>
             </div>
           
-            <p>(*) Campos obligatorios</p>
+            <p className='form-text'>(*) Campos obligatorios</p>
         </form>
     );
 } export default FormularioProducto;

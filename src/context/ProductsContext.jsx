@@ -11,7 +11,7 @@ export const ProductsProvider = ({ children }) => {
         const errores = {};
 
         // nombre
-        if (!producto.producto?.trim()) errores.nombre = 'El nombre es obligatorio.';
+        if (!producto.producto?.trim()) errores.producto = 'El nombre es obligatorio.';
 
         // precio
         if (!producto.precio?.toString().trim()) errores.precio = 'El precio es obligatorio.';
