@@ -40,8 +40,8 @@ function Pagar() {
                 </div>
 
                 <div className="d-flex justify-content-end gap-2">
-                    <button className="btn btn-outline-secondary" onClick={() => navigate('/carrito')}>Volver</button>
                     <button className="btn btn-success" onClick={comprar}>Confirmar y pagar</button>
+                    <button className="btn btn-outline-secondary" onClick={() => navigate('/carrito')}>Volver</button>
                 </div>
             </div>
         </div>
