@@ -64,7 +64,7 @@ function Productos() {
                 <ProductoItem key={producto.id} producto={producto}/>
               )
             ) : (
-              <div className='text-center my-5 text-muted'>No se encontraron productos</div>
+              <div className='no-results text-muted'>No se encontraron productos</div>
             )}
         </div>
         {productosFiltrados.length > productosPorPagina && (
