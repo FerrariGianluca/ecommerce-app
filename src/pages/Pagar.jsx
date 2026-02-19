@@ -26,7 +26,10 @@ function Pagar() {
                 <div className="pagar-lista border-bottom pb-3 mb-3">
                 {carrito.map(producto => (
                     <div key={producto.id} className="d-flex justify-content-between align-items-center mb-2">
-                        <span className="fw-semibold">{producto.producto} x{producto.cant}</span>
+                        <span className="fw-semibold">
+                            {producto.producto}
+                            <small className="text-muted ms-1">x{producto.cant}</small>
+                        </span>
                         <span className="text-dark">${(producto.precio * producto.cant).toFixed(2)}</span>
                     </div>
                 ))}
