@@ -1,0 +1,14 @@
+.pagar-card {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+}
+.pagar-lista {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 1rem;
+}
+.pagar-card > *:not(.pagar-lista) {
+    flex-shrink: 0;
+}
