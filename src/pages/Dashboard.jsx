@@ -23,6 +23,13 @@ function Dashboard() {
   const productosActuales = productosFiltrados.slice(indicePrimerProducto, indiceUltimoProducto)
   const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina)
 
+  const total = productos.length;
+  const promedio = total
+    ? Math.round(productos.reduce((acc, p) => acc + Number(p.precio), 0) / total)
+    : 0;
+  const max = Math.max(...productos.map(p => Number(p.precio)));
+  const min = Math.min(...productos.map(p => Number(p.precio)))
+
   const CONFIRM_DELETE_TOAST_ID = "confirm-delete";
   const confirmarEliminar = (producto) => {
     if (toast.isActive(CONFIRM_DELETE_TOAST_ID)) return;
@@ -91,6 +98,32 @@ function Dashboard() {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="mb-0">Dashboard Admin</h2>
         <button className="btn btn-primary" onClick={() => navigate('/formulario-producto')}>+ Agregar producto</button>
+      </div>
+      <div className='row mb-4 g-3'>
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="card p-3 text-center shadow-sm">
+            <h6 className="text-muted mb-1">Total productos</h6>
+            <h4 className="fw-bold">{total}</h4>
+          </div>
+        </div>
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="card p-3 text-center shadow-sm">
+            <h6 className="text-muted mb-1">Precio promedio</h6>
+            <h4 className="fw-bold">{promedio}</h4>
+          </div>
+        </div>
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="card p-3 text-center shadow-sm">
+            <h6 className="text-muted mb-1">Precio más alto</h6>
+            <h4 className="fw-bold">${max}</h4>
+          </div>
+        </div>
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="card p-3 text-center shadow-sm">
+            <h6 className="text-muted mb-1">Precio más bajo</h6>
+            <h4 className="fw-bold">${min}</h4>
+          </div>
+        </div>
       </div>
       <div className='mb-3'>
         <div className='position-relative'>
