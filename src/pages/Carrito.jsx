@@ -23,7 +23,7 @@ function Carrito(){
                 <>
                     <h2 className="mb-4 text-center">Carrito de Compras</h2>
                     <div className="card shadow-sm p-3 carrito-card">
-                        <div className="carrito-lista">
+                        <div className="carrito-tabla">
                             <table className="table table-hover align-middle">
                                 <thead className="table-light">
                                     <tr>
@@ -34,6 +34,10 @@ function Carrito(){
                                         <th>Precio Total</th>
                                     </tr>
                                 </thead>
+                            </table>
+                        </div>
+                        <div className="carrito-lista">
+                            <table className="table table-hover align-middle">
                                 <tbody>
                                     {carrito.map((item) => (
                                         <tr key={item.id}>
