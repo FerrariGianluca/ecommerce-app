@@ -51,7 +51,10 @@ function Productos() {
             placeholder='Buscar por nombre o categoría...'
             className='form-control'
             value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
+            onChange={(e) => {
+              setBusqueda(e.target.value);
+              setPaginaActual(1);
+            }}
           />
           <span><FaSearch className='position-absolute top-50 end-0 translate-middle-y me-3' /></span>
         </div>

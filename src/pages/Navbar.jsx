@@ -49,7 +49,7 @@ function Navbar() {
             </li>
             {isAdmin &&
               <li className="nav-item">
-                <Link className="nav-link" to="/formulario-producto">Agregar Producto</Link>
+                <Link className="nav-link" to="/dashboard">Dashboard</Link>
               </li>
             }
           </ul>
