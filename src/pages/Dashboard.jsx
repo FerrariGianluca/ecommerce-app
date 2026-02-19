@@ -9,6 +9,7 @@ function Dashboard() {
   const { productos, eliminarProducto, cargando, error, cargarProductos } = useProductsContext();
   const [busqueda, setBusqueda] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
+  const [orden, setOrden] = useState("");
   const navigate = useNavigate();
   const productosPorPagina = 10;
   const productosFiltrados = productos.filter(producto => {
@@ -20,7 +21,6 @@ function Dashboard() {
   })
   const indiceUltimoProducto = paginaActual * productosPorPagina;
   const indicePrimerProducto = indiceUltimoProducto - productosPorPagina;
-  const productosActuales = productosFiltrados.slice(indicePrimerProducto, indiceUltimoProducto)
   const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina)
 
   const total = productos.length;
@@ -29,6 +29,21 @@ function Dashboard() {
     : 0;
   const max = Math.max(...productos.map(p => Number(p.precio)));
   const min = Math.min(...productos.map(p => Number(p.precio)))
+
+  let productosOrdenados = [...productosFiltrados];
+  if (orden === "precio-asc") productosOrdenados.sort((a, b) => Number(a.precio) - Number(b.precio));
+  if (orden === "precio-desc") productosOrdenados.sort((a, b) => Number(b.precio) - Number(a.precio));
+  if (orden === "nombre-asc"){
+    productosOrdenados.sort((a, b) => 
+      a.producto.localeCompare(b.producto)
+    );
+  }
+  if (orden === "nombre-desc"){
+    productosOrdenados.sort((a, b) => 
+      b.producto.localeCompare(a.producto)
+    );
+  }
+  let productosActuales = productosOrdenados.slice(indicePrimerProducto, indicePrimerProducto + productosPorPagina)
 
   const CONFIRM_DELETE_TOAST_ID = "confirm-delete";
   const confirmarEliminar = (producto) => {
@@ -143,6 +158,19 @@ function Dashboard() {
           Mostrando {productosFiltrados.length} de {productos.length} productos
         </small>
       </div>
+      <select 
+        className="form-select mb-3"
+        value={orden}
+        onChange={(e) => {
+            setOrden(e.target.value)
+            setPaginaActual(1);
+        }}>
+        <option value="">Ordenar</option>
+        <option value="precio-asc">Precio menor a mayor</option>
+        <option value="precio-desc">Precio mayor a menor</option>
+        <option value="nombre-asc">Nombre A-Z</option>
+        <option value="nombre-desc">Nombre Z-A</option>
+      </select>
       <div className='dashboard-list'>
         {productosActuales.length > 0 ?
           <div className="d-flex flex-column gap-3 w-100">
